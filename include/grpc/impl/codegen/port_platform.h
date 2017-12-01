@@ -463,4 +463,8 @@ typedef unsigned __int64 uint64_t;
 #define __STDC_FORMAT_MACROS
 #endif
 
+#if _MSC_VER < 1900
+#define snprintf _snprintf
+#endif /* _MSC_VER */
+
 #endif /* GRPC_IMPL_CODEGEN_PORT_PLATFORM_H */

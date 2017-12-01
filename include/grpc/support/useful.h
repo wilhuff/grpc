@@ -62,4 +62,11 @@
 #define GPR_HASH_POINTER(x, range) \
   ((((size_t)x) >> 4) ^ (((size_t)x) >> 9) ^ (((size_t)x) >> 14)) % (range)
 
+/** Returns the unadorned name of the current function. Standardized in C++11 */
+#if _MSC_VER < 1900
+#define GRPC_FUNCTION_NAME __FUNCTION__
+#else
+#define GRPC_FUNCTION_NAME __func__
+#endif  // _MSC_VER
+
 #endif /* GRPC_SUPPORT_USEFUL_H */

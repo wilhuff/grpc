@@ -886,7 +886,7 @@ void PrintHeaderService(grpc_generator::Printer* printer,
 
   // Service metadata
   printer->Print(*vars,
-                 "static constexpr char const* service_full_name() {\n"
+                 "static const char const* service_full_name() {\n"
                  "  return \"$Package$$Service$\";\n"
                  "}\n");
 

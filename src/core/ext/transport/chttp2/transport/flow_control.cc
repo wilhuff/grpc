@@ -38,7 +38,7 @@ namespace chttp2 {
 
 namespace {
 
-static constexpr const int kTracePadding = 30;
+static const int kTracePadding = 30;
 
 static char* fmt_int64_diff_str(int64_t old_val, int64_t new_val) {
   char* str;

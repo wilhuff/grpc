@@ -175,7 +175,7 @@ class StreamWriteContext;
 
 class WriteContext {
  public:
-  WriteContext(grpc_exec_ctx* exec_ctx, grpc_chttp2_transport* t) : t_(t) {
+  WriteContext(grpc_exec_ctx* exec_ctx, grpc_chttp2_transport* t) : t_(t), result_({false, false, false}) {
     GRPC_STATS_INC_HTTP2_WRITES_BEGUN(exec_ctx);
     GPR_TIMER_BEGIN("grpc_chttp2_begin_write", 0);
   }
@@ -293,7 +293,7 @@ class WriteContext {
   int initial_metadata_writes_ = 0;
   int trailing_metadata_writes_ = 0;
   int message_writes_ = 0;
-  grpc_chttp2_begin_write_result result_ = {false, false, false};
+  grpc_chttp2_begin_write_result result_;
 };
 
 class DataSendContext {

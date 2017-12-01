@@ -133,7 +133,7 @@ std::shared_ptr<ChannelCredentials> SslCredentials(
 std::shared_ptr<CallCredentials> GoogleComputeEngineCredentials();
 
 /// Constant for maximum auth token lifetime.
-constexpr long kMaxAuthTokenLifetimeSecs = 3600;
+static const long kMaxAuthTokenLifetimeSecs = 3600;
 
 /// Builds Service Account JWT Access credentials.
 /// json_key is the JSON key string containing the client's private key.

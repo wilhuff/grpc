@@ -475,7 +475,7 @@ bool InteropClient::DoClientCompressedStreaming() {
       serviceStub_.Get()->StreamingInputCall(&probe_context, &probe_res));
 
   if (!probe_stream->Write(probe_req)) {
-    gpr_log(GPR_ERROR, "%s(): stream->Write() failed", __func__);
+    gpr_log(GPR_ERROR, "%s(): stream->Write() failed", GRPC_FUNCTION_NAME);
     return TransientFailureOrAbort();
   }
   Status s = probe_stream->Finish();
@@ -500,7 +500,7 @@ bool InteropClient::DoClientCompressedStreaming() {
   request.mutable_expect_compressed()->set_value(true);
   gpr_log(GPR_DEBUG, "Sending streaming request with compression enabled");
   if (!stream->Write(request)) {
-    gpr_log(GPR_ERROR, "%s(): stream->Write() failed", __func__);
+    gpr_log(GPR_ERROR, "%s(): stream->Write() failed", GRPC_FUNCTION_NAME);
     return TransientFailureOrAbort();
   }
 
@@ -510,7 +510,7 @@ bool InteropClient::DoClientCompressedStreaming() {
   request.mutable_expect_compressed()->set_value(false);
   gpr_log(GPR_DEBUG, "Sending streaming request with compression disabled");
   if (!stream->Write(request, wopts)) {
-    gpr_log(GPR_ERROR, "%s(): stream->Write() failed", __func__);
+    gpr_log(GPR_ERROR, "%s(): stream->Write() failed", GRPC_FUNCTION_NAME);
     return TransientFailureOrAbort();
   }
   GPR_ASSERT(stream->WritesDone());
@@ -573,7 +573,7 @@ bool InteropClient::DoServerCompressedStreaming() {
     gpr_log(GPR_ERROR,
             "%s(): Responses read (k=%" PRIuPTR
             ") is less than the expected number of  messages (%" PRIuPTR ").",
-            __func__, k, sizes.size());
+            GRPC_FUNCTION_NAME, k, sizes.size());
     return TransientFailureOrAbort();
   }
 

@@ -160,7 +160,7 @@ class TestServiceImpl : public TestService::Service {
     if (request->has_response_compressed()) {
       const bool compression_requested = request->response_compressed().value();
       gpr_log(GPR_DEBUG, "Request for compression (%s) present for %s",
-              compression_requested ? "enabled" : "disabled", __func__);
+              compression_requested ? "enabled" : "disabled", GRPC_FUNCTION_NAME);
       if (compression_requested) {
         // Any level would do, let's go for HIGH because we are overachievers.
         context->set_compression_level(GRPC_COMPRESS_LEVEL_HIGH);
@@ -208,7 +208,7 @@ class TestServiceImpl : public TestService::Service {
         const bool compression_requested =
             request->response_parameters(i).compressed().value();
         gpr_log(GPR_DEBUG, "Request for compression (%s) present for %s",
-                compression_requested ? "enabled" : "disabled", __func__);
+                compression_requested ? "enabled" : "disabled", GRPC_FUNCTION_NAME);
         if (!compression_requested) {
           wopts.set_no_compression();
         }  // else, compression is already enabled via the context.

@@ -29,6 +29,14 @@
 
 #include <grpc/support/log.h>
 
+#if _MSC_VER < 1900
+#define GRPC_ALIGNOF(x) __alignof(x)
+
+#else
+// C++11
+#define GRPC_ALIGNOF(x) alignof(x)
+#endif  // _MSC_VER
+
 namespace grpc_core {
 
 // this contains templated helpers needed to implement the ManualConstructors
@@ -43,19 +51,19 @@ class is_one_of;
 template <class Member, class... List>
 class is_one_of<Member, Member, List...> {
  public:
-  static constexpr const bool value = true;
+  static const bool value = true;
 };
 
 template <class Member, class A, class... List>
 class is_one_of<Member, A, List...> {
  public:
-  static constexpr const bool value = is_one_of<Member, List...>::value;
+  static const bool value = is_one_of<Member, List...>::value;
 };
 
 template <class Member>
 class is_one_of<Member> {
  public:
-  static constexpr const bool value = false;
+  static const bool value = false;
 };
 
 // max_size_of returns sizeof(Type) for the largest type in the variadic list
@@ -66,13 +74,13 @@ class max_size_of;
 template <class A>
 class max_size_of<A> {
  public:
-  static constexpr const size_t value = sizeof(A);
+  static const size_t value = sizeof(A);
 };
 
 template <class A, class... B>
 class max_size_of<A, B...> {
  public:
-  static constexpr const size_t value = sizeof(A) > max_size_of<B...>::value
+  static const size_t value = sizeof(A) > max_size_of<B...>::value
                                             ? sizeof(A)
                                             : max_size_of<B...>::value;
 };
@@ -85,14 +93,14 @@ class max_align_of;
 template <class A>
 class max_align_of<A> {
  public:
-  static constexpr const size_t value = alignof(A);
+  static const size_t value = GRPC_ALIGNOF(A);
 };
 
 template <class A, class... B>
 class max_align_of<A, B...> {
  public:
-  static constexpr const size_t value = alignof(A) > max_align_of<B...>::value
-                                            ? alignof(A)
+  static const size_t value = GRPC_ALIGNOF(A) > max_align_of<B...>::value
+                                            ? GRPC_ALIGNOF(A)
                                             : max_align_of<B...>::value;
 };
 
@@ -203,7 +211,7 @@ class ManualConstructor {
   void Destroy() { get()->~Type(); }
 
  private:
-  typename std::aligned_storage<sizeof(Type), alignof(Type)>::type space_;
+  typename std::aligned_storage<sizeof(Type), GRPC_ALIGNOF(Type)>::type space_;
 };
 
 }  // namespace grpc_core
